@@ -7,6 +7,7 @@
 #include "printf.h"
 #include "string.h"
 #include "trap.h"
+#include "timer.h"
 
 // These come from kernel.ld (the linker script).
 extern char bss_start[], bss_end[], kernel_end[];
@@ -27,6 +28,8 @@ static void cmd_help(void) {
     kprintf("Commands:\n");
     kprintf("  help     - show this list\n");
     kprintf("  info     - where the kernel lives in memory\n");
+    kprintf("  uptime   - how long Sigrun has been running\n");
+    kprintf("  stuck    - run a loop that never gives the CPU back\n");
     kprintf("  break    - hit a breakpoint (the kernel recovers!)\n");
     kprintf("  crash    - read from a bad address (crash report)\n");
     kprintf("  illegal  - run a garbage instruction (crash report)\n");
@@ -45,6 +48,19 @@ static void run_command(const char *line) {
         cmd_help();
     } else if (strcmp(line, "info") == 0) {
         cmd_info();
+    } else if (strcmp(line, "uptime") == 0) {
+        uint64 t = timer_ticks();
+        kprintf("Up for %ld.%ld seconds (%ld heartbeats)\n",
+                t / TICKS_PER_SECOND, (t % TICKS_PER_SECOND) / 10, t);
+    } else if (strcmp(line, "stuck") == 0) {
+        // A loop that never stops to check anything. Without a timer, the
+        // kernel could never get control back from code like this.
+        uint64 before = timer_ticks();
+        kprintf("Running a busy loop that never gives the CPU back...\n");
+        for (volatile uint64 i = 0; i < 400000000UL; i++) { }
+        kprintf("Done. While it ran, the timer interrupted it %ld times,\n",
+                timer_ticks() - before);
+        kprintf("and each time the kernel got control back.\n");
     } else if (strcmp(line, "break") == 0) {
         asm volatile("ebreak");          // the breakpoint instruction
         kprintf("...and we're back after the breakpoint.\n");
@@ -63,6 +79,7 @@ static void run_command(const char *line) {
 void kmain(void) {
     clear_bss();
     trap_init();   // from now on, crashes give a report instead of freezing
+    timer_init();  // start the heartbeat: 100 timer interrupts per second
 
     kprintf("\n");
     kprintf("=================================\n");

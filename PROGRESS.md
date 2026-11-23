@@ -19,7 +19,7 @@ for consent and resumes them.)
 - [x] **M0** Boot + print over UART + echo keys → `lessons/00-hello-kernel.md`
 - [x] **M1** Kernel `printf`, panic, traps/exceptions → `lessons/01-printf-and-traps.md`
       *(the `break` command already freezes, reports and resumes: the seed of a consent fault)*
-- [ ] **M2** Timer interrupts (the kernel's heartbeat)
+- [x] **M2** Timer interrupts (the kernel's heartbeat) → `lessons/02-timer-heartbeat.md`
 - [ ] **M3** Physical memory allocator
 - [ ] **M4** Paging (virtual memory) + **first consent fault**: touch an unmapped page → ask → map → resume
 - [ ] **M5** Processes + scheduler (context switching)
@@ -29,8 +29,19 @@ for consent and resumes them.)
 ### Phase 2 — Sigrun's own features
 - [ ] **M8** Keys (capabilities): allow once / for this task / deny; revocable at any time
 - [ ] **M9** Least-privilege report: "this program needed exactly these keys", and re-run with only those
-- [ ] **M10** Agent bridge: an outside AI drives programs inside Sigrun, and gets frozen whenever it touches something new
-- [ ] **M11** Showcase: boot it in the browser, CI, polished README, write-up
+- [ ] **M10** Kill switch: one command freezes every agent and takes back all keys
+- [ ] **M11** Internet consent: a program is frozen the first time it talks to a new website
+- [ ] **M12** Undo: roll back everything a program changed during a task
+- [ ] **M13** Agent bridge: an outside AI drives programs inside Sigrun, and gets frozen whenever it touches something new
+- [ ] **M14** Showcase: boot it in the browser, CI, polished README, write-up
+
+### Phase 3 — Extras (if time allows)
+- [ ] Secret vault: passwords no program can ever read
+- [ ] Time-limited keys ("allow for 10 minutes")
+- [ ] Budgets ("at most 20 file changes, no deleting")
+- [ ] Plain-English history of everything each program did
+- [ ] Permission recipes: save and share what a program needed
+- [ ] Approve from your phone
 
 ## What makes Sigrun different
 1. **Consent faults:** the CPU freezes a program at the exact moment it touches something new, and Sigrun asks you. No cooperation from the program needed.

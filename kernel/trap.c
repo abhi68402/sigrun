@@ -12,11 +12,13 @@
 #include "trap.h"
 #include "riscv.h"
 #include "printf.h"
+#include "timer.h"
 
 extern void trap_vector(void);   // in trap.S
 
 // The top bit of scause says "this was an interrupt"; the rest is the code.
 #define SCAUSE_INTERRUPT (1UL << 63)
+#define IRQ_TIMER        5           // interrupt code 5 = supervisor timer
 
 // RISC-V's official list of exception codes (from the RISC-V spec).
 static const char *exception_name(uint64 code) {
@@ -57,7 +59,12 @@ void kernel_trap(struct trap_frame *tf) {
     uint64 stval  = csr_read(stval);
 
     if (scause & SCAUSE_INTERRUPT) {
-        panic("unexpected interrupt, code %ld", scause & ~SCAUSE_INTERRUPT);
+        uint64 code = scause & ~SCAUSE_INTERRUPT;
+        if (code == IRQ_TIMER) {
+            timer_tick();   // heartbeat: count it, set the next alarm
+            return;         // trap.S restores registers; code continues
+        }
+        panic("unexpected interrupt, code %ld", code);
     }
 
     // A breakpoint is harmless: report it, skip the instruction, carry on.

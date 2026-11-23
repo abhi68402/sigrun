@@ -29,7 +29,8 @@ question**, so it works on any program, unmodified.
 - Serial console driver (UART, memory-mapped I/O)
 - Kernel `printf` and `panic`
 - Trap handling: crashes produce a readable report; breakpoints are recovered from
-- A small command console (`help`, `info`, `break`, `crash`, `illegal`)
+- Timer interrupts: a 100-per-second heartbeat that always returns control to the kernel
+- A small command console (`help`, `info`, `uptime`, `stuck`, `break`, `crash`, `illegal`)
 
 ```
 > crash

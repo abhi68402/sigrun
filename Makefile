@@ -16,7 +16,8 @@ CFLAGS  = -march=rv64gc -mabi=lp64d -mcmodel=medany \
 LDFLAGS = -T kernel/kernel.ld -nostdlib
 
 SRCS    = kernel/entry.S kernel/trap.S kernel/main.c kernel/uart.c \
-          kernel/printf.c kernel/string.c kernel/trap.c
+          kernel/printf.c kernel/string.c kernel/trap.c \
+          kernel/sbi.c kernel/timer.c
 OBJS    = $(patsubst kernel/%,build/%.o,$(SRCS))
 
 QEMUFLAGS = -machine virt -smp 1 -m 128M -nographic -bios default -kernel build/kernel.elf
