@@ -1,6 +1,10 @@
-# OS — a small RISC-V operating system, built from scratch
+# Sigrun — a small RISC-V operating system, built from scratch
 
-A hobby operating system kernel written in **C** for **64-bit RISC-V**, running
+*Named after Sigrún, a Valkyrie from Norse myth. Valkyries were "choosers",
+and an OS kernel's job is choosing too: which program runs next, and what
+each one is allowed to touch.*
+
+Sigrun is an operating system kernel written in **C** for **64-bit RISC-V**, running
 in the **QEMU** emulator. No libraries, no existing OS underneath: every
 piece, from printing text to catching crashes, is written here.
 

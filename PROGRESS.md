@@ -1,4 +1,4 @@
-# OS Project — Progress
+# Sigrun OS — Progress
 
 Stack: **C + RISC-V 64 + QEMU (virt machine, OpenSBI firmware)**
 Pitch (end goal): *A capability-secure OS that runs sandboxed WebAssembly apps — bootable in your browser.*

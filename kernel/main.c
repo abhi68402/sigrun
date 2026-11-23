@@ -66,7 +66,7 @@ void kmain(void) {
 
     kprintf("\n");
     kprintf("=================================\n");
-    kprintf("  Hello from my own kernel!\n");
+    kprintf("  Sigrun OS -- hello from my own kernel!\n");
     kprintf("=================================\n");
     kprintf("Type 'help' for commands. Quit QEMU: Ctrl-A then X\n\n");
 
