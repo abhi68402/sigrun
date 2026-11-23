@@ -8,8 +8,21 @@ Sigrun is an operating system kernel written in **C** for **64-bit RISC-V**, run
 in the **QEMU** emulator. No libraries, no existing OS underneath: every
 piece, from printing text to catching crashes, is written here.
 
-**End goal:** a capability-secure OS that runs sandboxed WebAssembly apps and
-boots right in your browser.
+## The idea: consent faults
+**Permission works like memory.** Nothing is granted up front. The first time
+any program or AI agent touches something new, the CPU traps, Sigrun freezes
+it mid-instruction, asks you, and resumes the exact same instruction if you
+allow it.
+
+```
+⏸  agent "organizer" was frozen while trying to:
+     DELETE  downloads/old.zip
+   [allow once]  [allow for this task]  [deny]  [deny + stop agent]
+```
+
+Existing "ask before acting" systems for AI agents work inside the app, so
+the agent has to choose to ask. In Sigrun the **hardware forces the
+question**, so it works on any program, unmodified.
 
 ## What works today
 - Boots on QEMU's `virt` machine via OpenSBI firmware
@@ -57,9 +70,10 @@ PROGRESS.md   roadmap
 ```
 
 ## What makes it different (planned)
-1. **Apps are WebAssembly**: sandboxed, and the same app file runs on any CPU.
-2. **Capability security**: apps can only touch what they're explicitly given; there is no all-powerful root user.
-3. **Boots in a browser tab**: try it from a link, nothing to install.
-4. **Documented as lessons**: every milestone is explained in `lessons/`.
+1. **Consent faults**: the CPU freezes a program the moment it touches something new; Sigrun asks you, then resumes it.
+2. **Zero access by default**: every program and agent starts with no keys; there is no all-powerful root user.
+3. **Least privilege for free**: Sigrun records exactly which keys a program needed and can lock it to that list.
+4. **Boots in a browser tab**: try it from a link, nothing to install.
+5. **Documented as lessons**: every milestone is explained in `lessons/`.
 
 See [PROGRESS.md](PROGRESS.md) for the roadmap.
