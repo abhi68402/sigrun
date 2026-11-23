@@ -76,4 +76,5 @@ PROGRESS.md   roadmap
 4. **Boots in a browser tab**: try it from a link, nothing to install.
 5. **Documented as lessons**: every milestone is explained in `lessons/`.
 
+New to operating systems? Start with [lessons/START-HERE.md](lessons/START-HERE.md).
 See [PROGRESS.md](PROGRESS.md) for the roadmap.
